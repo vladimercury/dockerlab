@@ -13,6 +13,12 @@ Code at `labworker` directory
 
 Image is `vladimirkuriy/dockerlab:worker`
 
+Placed on nodes with label `type=worker`
+
+## Persistence
+
+Placed on nodes with label `type=db`
+
 ## Scripts
 
 * `start-vms.sh` - Create and/or start VMs (vmanager, vworker1, vworker2, vdb)
