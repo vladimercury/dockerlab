@@ -1,0 +1,51 @@
+version: "3"
+services:
+  manager:
+    image: vladimirkuriy/dockerlab:manager
+    environment:
+      - WORKER_PORT=7000
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+  worker:
+    image: vladimirkuriy/dockerlab:worker
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      placement:
+        constraints: [node.labels.type == worker]
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "7000:80"
+    networks:
+      - webnet
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.type == db]
+      restart_policy:
+        condition: on-failure
+    command: redis-server
+    networks:
+      - webnet
+networks:
+  webnet:
