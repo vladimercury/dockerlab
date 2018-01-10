@@ -29,3 +29,4 @@ Placed on nodes with label `type=db`
 * `leave-swarm.sh` - All nodes leave swarm
 * `stop-vms.sh` - Stop VMs
 * `FULL-UNDEPLOY.sh` - `remove-stack.sh` then `leave-swarm.sh` then `stop-vms.sh`
+* `build-push-instance.sh <manager/worker>` - push changes to manager/worker image at docker.io
