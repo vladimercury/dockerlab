@@ -26,7 +26,7 @@ def fibonacci_parse(data):
 def get_data():
     try:
         current = fibonacci_parse(redis.get("data"))[-1]
-        return jsonify(result=current)
+        return jsonify(result=str(current))
     except RedisError as e:
         abort(500, "Redis Error: {error}".format(error=e))
 

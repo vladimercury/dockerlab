@@ -18,12 +18,16 @@ Manager=vmanager
 Workers=(vworker1 vworker2)
 Persistence=vdb
 
+echo "" > stack.log
 
 # Send docker-compose to manager
 printf "Sending docker-compose to $Manager..."
-docker-machine scp docker-compose.yml $Manager:~ >> /dev/null && echo "OK"
+docker-machine scp docker-compose.yml $Manager:~ >> stack.log && echo "OK"
 
+# Creating .data dir on manager
+printf "Creating data dir on $Persistence..."
+docker-machine ssh $Persistence "mkdir -p ./data" >> stack.log && echo "OK"
 
 # Deploy stack
 printf "Deploying stack..."
-docker-machine ssh $Manager "docker stack deploy -c docker-compose.yml dockerlab" >> /dev/null && echo "OK"
+docker-machine ssh $Manager "docker stack deploy -c docker-compose.yml dockerlab" >> stack.log && echo "OK"

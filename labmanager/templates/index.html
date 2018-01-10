@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="http://bootstrap-3.ru/dist/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>
+    var workerURL = window.location.protocol + "//" + window.location.hostname + ":{{port}}";
+
     function enable(node) {
         return node.attr("disabled", false)
             .text(node.data("text"));
@@ -32,7 +34,16 @@
         $button = disable($("#raise"));
         $.ajax({
             type: "POST",
-            url: window.location.protocol + "//" + window.location.hostname + ":{{port}}/raise"
+            url: workerURL + "/raise"
+        })
+        .always(() => enable($button));
+    }
+
+    function reset() {
+        $button = disable($("#reset"));
+        $.ajax({
+            type: "POST",
+            url: workerURL + "/reset"
         })
         .always(() => enable($button));
     }
@@ -41,6 +52,7 @@
         update();
         $("#update").click(update);
         $("#raise").click(raise);
+        $("#reset").click(reset);
     });
 </script>
 <body>
@@ -51,6 +63,7 @@
             <p>
                 <a class="btn btn-default btn-lg" role="button" id="update">Update</a>
                 <a class="btn btn-info btn-lg" role="button" id="raise">Raise</a>
+                <a class="btn btn-danger btn-lg" role="button" id="reset">Reset</a>
             </p>
         </div>
     </div>
